@@ -7,5 +7,3 @@ node_modules
 .env
 .lock
 .vscode
-pages_backup
-components_backup

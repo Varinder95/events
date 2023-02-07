@@ -51,21 +51,15 @@ export default {
         .catch((error) => {
             if (error.response) {
                 // Request made and server responded
-                this.SignInError = true;
-                this.errorMessage = error.response.data.message
                 console.log(error.response.data);
                 console.log(error.response.status);
                 console.log(error.response.headers);
             } else if (error.request) {
                 // The request was made but no response was received
                 console.log(error.request);
-                this.SignInError = true
-                this.errorMessage = error.request
             } else {
                 // Something happened in setting up the request that triggered an Error
                 console.log('Error', error.message);
-                this.SignInError = true
-                this.errorMessage = error.message
             }
         });
         if((this.eventData).length !== 0) {
@@ -109,7 +103,7 @@ export default {
                                 </div>
                                 <div class="course-details-action">
                                     <div class="course-follow">
-                                        <a href="javascript:void(0)" class="edu-follow-btn" @click="dashEventClick">Host Event</a>
+                                        <a href="/add-event" class="edu-follow-btn">Host Event</a>
                                     </div>
                                 </div>
                             </div>

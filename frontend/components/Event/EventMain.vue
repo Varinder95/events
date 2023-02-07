@@ -70,7 +70,7 @@ export default {
    <div v-if="loaded">
 
       <!-- header-area-start -->
-      <HeaderFour :isLoggedIn="loggedIn" />
+      <HeaderFour />
       <!-- header-area-end -->
 
       <!-- PageTitle-area-end -->

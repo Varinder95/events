@@ -4,8 +4,8 @@
          <div class="row">
             <div class="col-lg-6 offset-lg-3">
                <div class="section-title text-center mb-55">
-                  <h2>What Students<br>
-                     Think and Say About <span class="down-mark-line">Eduman</span></h2>
+                  <h2>What People<br>
+                     Think and Say About <span class="down-mark-line">Us</span></h2>
                </div>
             </div>
          </div>
@@ -89,28 +89,28 @@ export default {
             id: '1',
             testImage: '/img/testimonial/Image.png',
             name: 'David Johnson',
-            designation: 'Student',
+            designation: 'Host',
             qoute: '/img/testimonial/quotes.png',
-            great: 'Great Course !',
-            feedback: 'Thanks to our marketplace model, our content keeps pace with market changes. You’ll find courses on the latest technologies and business practice and more!',
+            great: 'Great Event !',
+            feedback: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
          },
          {
             id: '2',
             testImage: '/img/testimonial/testimonial-02.png',
             name: 'Brandon Tylor',
-            designation: 'Student',
+            designation: 'Host',
             qoute: '/img/testimonial/quotes.png',
             great: 'Best Experience !',
-            feedback: 'In every software-as-a-service solution, user billing and payments are key aspects in the sale of services rendered. Let’s learn about Stripe the metal mates.',
+            feedback: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
          },
          {
             id: '3',
             testImage: '/img/testimonial/testimonial.png',
             name: 'Richard Joseph',
-            designation: 'Student',
+            designation: 'Host',
             qoute: '/img/testimonial/quotes.png',
-            great: 'Helpful Instructors !',
-            feedback: 'There are so many websites out there that have not considered the overall usability of their visually impaired users. When it comes to designing better links.',
+            great: 'Great Event !',
+            feedback: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
          }
          ],
       }

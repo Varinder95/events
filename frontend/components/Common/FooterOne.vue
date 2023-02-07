@@ -62,8 +62,8 @@
                   <div class="row">
                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="copyright-text border-line">
-                           <p>© Copyrighted
-                              by <a href="#"><span>Company</span></a> </p>
+                           <p>© Developed 
+                              by <a href="https://alisor.com" target="_blank"><span>Alisor</span></a> </p>
                         </div>
                      </div>
                      <div class="col-xl-4 col-lg-4 col-sm-6">

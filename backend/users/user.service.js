@@ -7,7 +7,8 @@ const User = db.User;
 module.exports = {
     authenticate,
     create,
-    getById
+    getById,
+    getUserCount
 };
 
 async function authenticate({ Email, password }) {
@@ -42,4 +43,10 @@ async function create(userParam) {
 // get user by id
 async function getById(id) {
     return await User.findById(id);
+}
+
+// get user count
+async function getUserCount(query) {
+    console.log(User.count(query));
+    return await User.count(query);
 }

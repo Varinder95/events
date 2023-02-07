@@ -8,7 +8,11 @@ const errorHandler = require('./helpers/error-handler');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+
+var corsOptions = {
+  origin: '*',
+}
+app.use(cors(corsOptions));
 
 // use JWT auth to secure the api
 app.use(jwt());

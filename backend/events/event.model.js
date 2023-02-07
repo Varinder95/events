@@ -26,6 +26,7 @@ const schema = new Schema({
     Prize3: { type: String, default: 'No Prize' },
     consolationPrize: { type: String, default: 'No Prize' },
     approvalStatus: { type:String, default: 'Pending'},
+    Featured: { type:String, default: 'No'},
     createdDate: { type: Date, default: Date.now }
 });
 

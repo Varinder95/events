@@ -6,6 +6,7 @@ const userService = require('./user.service');
 router.post('/authenticate', authenticate);
 router.post('/register', register);
 router.get('/current', getCurrent);
+router.get('/getUserCount', getUserCount);
 
 module.exports = router;
 
@@ -25,5 +26,11 @@ function register(req, res, next) {
 function getCurrent(req, res, next) {
     userService.getById(req.user.id)
         .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+function getUserCount(req, res, next) {
+    userService.getUserCount(req.query)
+        .then(console.log(res))
         .catch(err => next(err));
 }

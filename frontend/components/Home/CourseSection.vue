@@ -1,9 +1,44 @@
 <script>
-import courseItemsMixin from "../../mixins/courseItemsMixin";
+import axios from "axios";
 
 export default {
     name: "app",
-    mixins:[courseItemsMixin],
+    data() {
+      return {
+        getData:'',
+        loaded: false,
+      }
+    },
+    mounted() {
+        this.getFeaturedEvent()
+    },
+    methods: {
+      async getFeaturedEvent() {
+        await axios.get('http://127.0.0.1:4000/events/getAllFiltered', {
+            params: { Featured : "Yes"}
+        }).then((res) => {
+            console.log(res)   
+            this.getData = res.data
+        })
+        .catch((error) => {
+            if (error.response) {
+                // Request made and server responded
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        });
+         if((this.getData).length !== 0) {
+               this.loaded = true
+         }
+        },
+   } 
 };
 </script>
 
@@ -31,11 +66,10 @@ export default {
                   <div class="portfolio-button mt-60">
                      <nav>
                         <div class="nav" id="nav-tab" role="tablist">
-                           <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">View All <span class="port-red">[06]</span></button>
-                           <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Indoor Sports <span class="port-red">[01]</span></button>
-                           <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Outdoor Sports <span class="port-red">[03]</span></button>
-                           <button class="nav-link" id="nav-contact-tabA" data-bs-toggle="tab" data-bs-target="#nav-contactA" type="button" role="tab" aria-controls="nav-contactA" aria-selected="false">Music <span class="port-red">[01]</span></button>
-                           <button class="nav-link" id="nav-contact-tabB" data-bs-toggle="tab" data-bs-target="#nav-contactB" type="button" role="tab" aria-controls="nav-contactB" aria-selected="false">Other <span class="port-red">[01]</span></button>
+                           <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">View All </button>
+                           <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Indoor Sports </button>
+                           <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Outdoor Sports </button>
+                           <button class="nav-link" id="nav-contact-tabB" data-bs-toggle="tab" data-bs-target="#nav-contactB" type="button" role="tab" aria-controls="nav-contactB" aria-selected="false">Other </button>
                         </div>
                      </nav>
                   </div>
@@ -43,309 +77,64 @@ export default {
             </div>
             <div class="course-main-items">
                <div class="tab-content" id="nav-tabContent">
-                  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                  <div v-if="loaded" class="tab-pane fade show active">
                      <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-6" v-for="item in courseItemss.slice(0,6)" :key="item.id">
+                        <div class="col-xl-4 col-lg-4 col-md-6" v-for="data in getData" :key="data.id">
                            <div class="eduman-course-main-wrapper mb-30">
                                  <div class="eduman-course-thumb w-img">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><img :src="item.courseImage" alt="course-img"></NuxtLink>
+                                       <NuxtLink :to="`/event-details/${data.id}`"><img src="/img/course/course-01.jpg" alt="course-img"></NuxtLink>
                                  </div>
                                  <div class="course-cart">
                                     <div class="course-info-wrapper">
                                        <div class="cart-info-body">
-                                          <span :class="item.badgeClass"><NuxtLink to="/course">{{item.badge}}</NuxtLink></span>
-                                          <NuxtLink :to="`/course-details/${item.id}`"><h3>{{item.title}}</h3></NuxtLink>
+                                          <span class="category-color category-color-1"><NuxtLink to="/event">{{data.Category}}</NuxtLink></span>
+                                          <NuxtLink :to="`/event-details/${data.id}`"><h3>{{data.Name}}</h3></NuxtLink>
                                           <div class="cart-lavel">
-                                                <h5>{{item.level}} <span>{{item.beginer}}</span></h5>
-                                                <p>{{item.description }}</p>
+                                                <h5>Sport - <span>{{data.Sport}}</span></h5>
+                                                <p>{{data.Description }}</p>
                                           </div>
                                           <div class="info-cart-text">
                                                 <ul>
-                                                   <li v-for="itemTwo in item.infoList" :key="itemTwo.infoListTitle"><i class="far fa-check"></i>{{itemTwo.infoListTitle}}</li>
+                                                   <li><i class="fa-sharp fa-solid fa-calendar-days"></i><span class="fw-bold">Start Date :</span> {{data.startDate}}</li>
+                                                   <li><i class="fa-sharp fa-solid fa-calendar-days"></i><span class="fw-bold">End Date :</span> {{data.endDate}}</li>
+                                                   <li><i class="fa-solid fa-clock"></i><span class="fw-bold">Time :</span> {{data.Time}}</li>
                                                 </ul>
                                           </div>
                                           <div class="course-action">
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="view-details-btn">{{item.viewBtn}}</NuxtLink>
-                                                <button class="wishlist-btn"><i :class="item.wishIcon"></i></button>
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="c-share-btn"><i :class="item.shareIcon"></i></NuxtLink>
+                                                <NuxtLink :to="`/event-details/${data.id}`" class="view-details-btn">View Details</NuxtLink>
+                                                <NuxtLink class="c-share-btn"><i class="flaticon-previous"></i></NuxtLink>
                                           </div>
                                        </div>
                                     </div>
                                  </div>
                                  <div class="eduman-course-wraper">
                                     <div class="eduman-course-heading">
-                                       <NuxtLink :class="item.badgeClass" to="/course">{{item.badge}}</NuxtLink>
-                                       <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                                       <NuxtLink class="category-color category-color-1" to="/event">{{data.Sport}}</NuxtLink>
                                     </div>
                                     <div class="eduman-course-text">
-                                       <h3><NuxtLink :to="`/course-details/${item.id}`">{{item.courseTitle}}</NuxtLink></h3>
+                                       <h3><NuxtLink :to="`/event-details/${data.id}`">{{data.Name}}</NuxtLink></h3>
                                     </div>
-                                    <div class="eduman-course-meta">
-                                       <div class="eduman-course-price">
-                                          <span class="price-now">{{item.price}}</span>
-                                          <del class="price-old">{{item.priceOld}}</del>
+                                    <div class="eduman-course-meta mt-10">
+                                       <div class="eduman-course-price row">
+                                          <h4 class="fw-bold col-md-6">Entry Fees : </h4><span class="price-now col-md-6">{{data.entryFee}}/-</span>
                                        </div>
                                        <div class="eduman-course-tutor">
-                                          <NuxtLink to="/instructor"><img :src="item.instructorImage" alt="tutor-img"></NuxtLink>
-                                          <NuxtLink to="/instructor"><span>{{item.instructor}}</span></NuxtLink>
+                                          <NuxtLink to="#"><span class="text-capitalize">{{data.createdByFName}}</span> <span class="text-capitalize">{{data.createdByLName}}</span></NuxtLink>
                                        </div>
                                     </div>
                                  </div>
                                  <div class="eduman-course-footer">
-                                    <div class="course-lessson-svg">
-                                       <i v-html="item.lessonIcon"></i>
-                                       <span class="ms-2">{{item.lesson}}</span>
-                                    </div>
                                     <div class="course-deteals-btn">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><span class="me-2">{{item.viewBtn}}</span><i class="far fa-arrow-right"></i></NuxtLink>
+                                       <NuxtLink :to="`/event-details/${data.id}`"><span class="me-2">View Details</span><i class="far fa-arrow-right"></i></NuxtLink>
                                     </div>
                                  </div>
                            </div>
                         </div>
                      </div>
                   </div>
-                  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                  <div v-else class="flex container">
                      <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-6" v-for="item in courseItemss.slice(0,1)" :key="item.id">
-                           <div class="eduman-course-main-wrapper mb-30">
-                                 <div class="eduman-course-thumb w-img">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><img :src="item.courseImage" alt="course-img"></NuxtLink>
-                                 </div>
-                                 <div class="course-cart">
-                                    <div class="course-info-wrapper">
-                                       <div class="cart-info-body">
-                                          <span :class="item.badgeClass"><NuxtLink to="/course">{{item.badge}}</NuxtLink></span>
-                                          <NuxtLink :to="`/course-details/${item.id}`"><h3>{{item.title}}</h3></NuxtLink>
-                                          <div class="cart-lavel">
-                                                <h5>{{item.level}} <span>{{item.beginer}}</span></h5>
-                                                <p>{{item.description }}</p>
-                                          </div>
-                                          <div class="info-cart-text">
-                                                <ul>
-                                                   <li v-for="itemTwo in item.infoList" :key="itemTwo.infoListTitle"><i class="far fa-check"></i>{{itemTwo.infoListTitle}}</li>
-                                                </ul>
-                                          </div>
-                                          <div class="course-action">
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="view-details-btn">{{item.viewBtn}}</NuxtLink>
-                                                <button class="wishlist-btn"><i :class="item.wishIcon"></i></button>
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="c-share-btn"><i :class="item.shareIcon"></i></NuxtLink>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="eduman-course-wraper">
-                                    <div class="eduman-course-heading">
-                                       <NuxtLink :class="item.badgeClass" to="/course">{{item.badge}}</NuxtLink>
-                                       <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
-                                    </div>
-                                    <div class="eduman-course-text">
-                                       <h3><NuxtLink :to="`/course-details/${item.id}`">{{item.courseTitle}}</NuxtLink></h3>
-                                    </div>
-                                    <div class="eduman-course-meta">
-                                       <div class="eduman-course-price">
-                                          <span class="price-now">{{item.price}}</span>
-                                          <del class="price-old">{{item.priceOld}}</del>
-                                       </div>
-                                       <div class="eduman-course-tutor">
-                                          <NuxtLink to="/instructor"><img :src="item.instructorImage" alt="tutor-img"></NuxtLink>
-                                          <NuxtLink to="/instructor"><span>{{item.instructor}}</span></NuxtLink>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="eduman-course-footer">
-                                    <div class="course-lessson-svg">
-                                       <i v-html="item.lessonIcon"></i>
-                                       <span class="ms-2">{{item.lesson}}</span>
-                                    </div>
-                                    <div class="course-deteals-btn">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><span class="me-2">{{item.viewBtn}}</span><i class="far fa-arrow-right"></i></NuxtLink>
-                                    </div>
-                                 </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                     <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-6" v-for="item in courseItemss.slice(1,4)" :key="item.id">
-                           <div class="eduman-course-main-wrapper mb-30">
-                                 <div class="eduman-course-thumb w-img">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><img :src="item.courseImage" alt="course-img"></NuxtLink>
-                                 </div>
-                                 <div class="course-cart">
-                                    <div class="course-info-wrapper">
-                                       <div class="cart-info-body">
-                                          <span :class="item.badgeClass"><NuxtLink to="/course">{{item.badge}}</NuxtLink></span>
-                                          <NuxtLink :to="`/course-details/${item.id}`"><h3>{{item.title}}</h3></NuxtLink>
-                                          <div class="cart-lavel">
-                                                <h5>{{item.level}} <span>{{item.beginer}}</span></h5>
-                                                <p>{{item.description }}</p>
-                                          </div>
-                                          <div class="info-cart-text">
-                                                <ul>
-                                                   <li v-for="itemTwo in item.infoList" :key="itemTwo.infoListTitle"><i class="far fa-check"></i>{{itemTwo.infoListTitle}}</li>
-                                                </ul>
-                                          </div>
-                                          <div class="course-action">
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="view-details-btn">{{item.viewBtn}}</NuxtLink>
-                                                <button class="wishlist-btn"><i :class="item.wishIcon"></i></button>
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="c-share-btn"><i :class="item.shareIcon"></i></NuxtLink>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="eduman-course-wraper">
-                                    <div class="eduman-course-heading">
-                                       <NuxtLink :class="item.badgeClass" to="/course">{{item.badge}}</NuxtLink>
-                                       <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
-                                    </div>
-                                    <div class="eduman-course-text">
-                                       <h3><NuxtLink :to="`/course-details/${item.id}`">{{item.courseTitle}}</NuxtLink></h3>
-                                    </div>
-                                    <div class="eduman-course-meta">
-                                       <div class="eduman-course-price">
-                                          <span class="price-now">{{item.price}}</span>
-                                          <del class="price-old">{{item.priceOld}}</del>
-                                       </div>
-                                       <div class="eduman-course-tutor">
-                                          <NuxtLink to="/instructor-profile"><img :src="item.instructorImage" alt="tutor-img"></NuxtLink>
-                                          <NuxtLink to="/instructor-profile"><span>{{item.instructor}}</span></NuxtLink>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="eduman-course-footer">
-                                    <div class="course-lessson-svg">
-                                       <i v-html="item.lessonIcon"></i>
-                                       <span class="ms-2">{{item.lesson}}</span>
-                                    </div>
-                                    <div class="course-deteals-btn">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><span class="me-2">{{item.viewBtn}}</span><i class="far fa-arrow-right"></i></NuxtLink>
-                                    </div>
-                                 </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="tab-pane fade" id="nav-contactA" role="tabpanel" aria-labelledby="nav-contact-tabA">
-                     <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-6" v-for="item in courseItemss.slice(4,5)" :key="item.id">
-                           <div class="eduman-course-main-wrapper mb-30">
-                                 <div class="eduman-course-thumb w-img">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><img :src="item.courseImage" alt="course-img"></NuxtLink>
-                                 </div>
-                                 <div class="course-cart">
-                                    <div class="course-info-wrapper">
-                                       <div class="cart-info-body">
-                                          <span :class="item.badgeClass"><NuxtLink to="/course">{{item.badge}}</NuxtLink></span>
-                                          <NuxtLink :to="`/course-details/${item.id}`"><h3>{{item.title}}</h3></NuxtLink>
-                                          <div class="cart-lavel">
-                                                <h5>{{item.level}} <span>{{item.beginer}}</span></h5>
-                                                <p>{{item.description }}</p>
-                                          </div>
-                                          <div class="info-cart-text">
-                                                <ul>
-                                                   <li v-for="itemTwo in item.infoList" :key="itemTwo.infoListTitle"><i class="far fa-check"></i>{{itemTwo.infoListTitle}}</li>
-                                                </ul>
-                                          </div>
-                                          <div class="course-action">
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="view-details-btn">{{item.viewBtn}}</NuxtLink>
-                                                <button class="wishlist-btn"><i :class="item.wishIcon"></i></button>
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="c-share-btn"><i :class="item.shareIcon"></i></NuxtLink>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="eduman-course-wraper">
-                                    <div class="eduman-course-heading">
-                                       <NuxtLink :class="item.badgeClass" to="/course">{{item.badge}}</NuxtLink>
-                                       <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
-                                    </div>
-                                    <div class="eduman-course-text">
-                                       <h3><NuxtLink :to="`/course-details/${item.id}`">{{item.courseTitle}}</NuxtLink></h3>
-                                    </div>
-                                    <div class="eduman-course-meta">
-                                       <div class="eduman-course-price">
-                                          <span class="price-now">{{item.price}}</span>
-                                          <del class="price-old">{{item.priceOld}}</del>
-                                       </div>
-                                       <div class="eduman-course-tutor">
-                                          <NuxtLink to="/instructor"><img :src="item.instructorImage" alt="tutor-img"></NuxtLink>
-                                          <NuxtLink to="/instructor"><span>{{item.instructor}}</span></NuxtLink>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="eduman-course-footer">
-                                    <div class="course-lessson-svg">
-                                       <i v-html="item.lessonIcon"></i>
-                                       <span class="ms-2">{{item.lesson}}</span>
-                                    </div>
-                                    <div class="course-deteals-btn">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><span class="me-2">{{item.viewBtn}}</span><i class="far fa-arrow-right"></i></NuxtLink>
-                                    </div>
-                                 </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="tab-pane fade" id="nav-contactB" role="tabpanel" aria-labelledby="nav-contact-tabB">
-                     <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-6" v-for="item in courseItemss.slice(5,6)" :key="item.id">
-                           <div class="eduman-course-main-wrapper mb-30">
-                                 <div class="eduman-course-thumb w-img">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><img :src="item.courseImage" alt="course-img"></NuxtLink>
-                                 </div>
-                                 <div class="course-cart">
-                                    <div class="course-info-wrapper">
-                                       <div class="cart-info-body">
-                                          <span :class="item.badgeClass"><NuxtLink to="/course">{{item.badge}}</NuxtLink></span>
-                                          <NuxtLink :to="`/course-details/${item.id}`"><h3>{{item.title}}</h3></NuxtLink>
-                                          <div class="cart-lavel">
-                                                <h5>{{item.level}} <span>{{item.beginer}}</span></h5>
-                                                <p>{{item.description }}</p>
-                                          </div>
-                                          <div class="info-cart-text">
-                                                <ul>
-                                                   <li v-for="itemTwo in item.infoList" :key="itemTwo.infoListTitle"><i class="far fa-check"></i>{{itemTwo.infoListTitle}}</li>
-                                                </ul>
-                                          </div>
-                                          <div class="course-action">
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="view-details-btn">{{item.viewBtn}}</NuxtLink>
-                                                <button class="wishlist-btn"><i :class="item.wishIcon"></i></button>
-                                                <NuxtLink :to="`/course-details/${item.id}`" class="c-share-btn"><i :class="item.shareIcon"></i></NuxtLink>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="eduman-course-wraper">
-                                    <div class="eduman-course-heading">
-                                       <NuxtLink :class="item.badgeClass" to="/course">{{item.badge}}</NuxtLink>
-                                       <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
-                                    </div>
-                                    <div class="eduman-course-text">
-                                       <h3><NuxtLink :to="`/course-details/${item.id}`">{{item.courseTitle}}</NuxtLink></h3>
-                                    </div>
-                                    <div class="eduman-course-meta">
-                                       <div class="eduman-course-price">
-                                          <span class="price-now">{{item.price}}</span>
-                                          <del class="price-old">{{item.priceOld}}</del>
-                                       </div>
-                                       <div class="eduman-course-tutor">
-                                          <NuxtLink to="/instructor"><img :src="item.instructorImage" alt="tutor-img"></NuxtLink>
-                                          <NuxtLink to="/instructor"><span>{{item.instructor}}</span></NuxtLink>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="eduman-course-footer">
-                                    <div class="course-lessson-svg">
-                                       <i v-html="item.lessonIcon"></i>
-                                       <span class="ms-2">{{item.lesson}}</span>
-                                    </div>
-                                    <div class="course-deteals-btn">
-                                       <NuxtLink :to="`/course-details/${item.id}`"><span class="me-2">{{item.viewBtn}}</span><i class="far fa-arrow-right"></i></NuxtLink>
-                                    </div>
-                                 </div>
-                           </div>
-                        </div>
+                        <h4>No Featured events yet</h4>
                      </div>
                   </div>
                </div>

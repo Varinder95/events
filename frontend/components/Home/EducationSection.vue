@@ -13,7 +13,7 @@
                 <div class="col-xl-4 col-lg-4">
                     <div class="section-title mb-30">
                         <h2>Add some enjoyments Your
-                        life through all kind of<span class="down-mark-line">Events</span></h2>
+                        life through all kind of <span class="down-mark-line">Events</span></h2>
                     </div>
                     <div class="education-content mb-30">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>

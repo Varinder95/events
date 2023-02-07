@@ -17,7 +17,10 @@ export default {
          loggedIn: false,
          eventData: '',
          loaded: false,
-         selfUpload: false
+         selfUpload: false,
+         isAdmin: false,
+         isApproved: false,
+         isFeatured: false
       }
    },
    components: {
@@ -25,16 +28,15 @@ export default {
       PageTitle,
       HeaderFour
    },
-   mounted() {
+   beforeMount() {
+      this.getEventDetails()
       if (localStorage.loggedIn) {
          this.loggedIn = localStorage.loggedIn;
-         if(localStorage.UserData.id === this.eventData.createdById){
-            this.selfUpload = true
+         this.loggedIn = localStorage.loggedIn;
+         if(JSON.parse(localStorage.UserData).Status === "Admin") {
+             this.isAdmin = true
          }
       }
-      
-      this.getEventDetails()
-      this.loaded = true
    },
    methods: {
       async getEventDetails() {
@@ -43,6 +45,15 @@ export default {
         }).then((res) => {
             console.log(res)   
             this.eventData = res.data
+            if(JSON.parse(localStorage.UserData).id === this.eventData.createdById){
+               this.selfUpload = true
+            }
+            if(this.eventData.approvalStatus === "Approved") {
+                this.isApproved = true
+            }
+            if(this.eventData.Featured === "Yes") {
+                this.isFeatured = true
+            }
         })
         .catch((error) => {
             if (error.response) {
@@ -60,8 +71,56 @@ export default {
             }
         });
         this.loaded = true
-        }
-    }
+      },
+      async approveEvent() {
+        await axios.post('http://127.0.0.1:4000/events/updateEvent', {
+            params: { Id: this.eventId , query: { approvalStatus : "Approved"} }
+        }).then((res) => {
+            console.log(res)
+            this.$router.go()   
+        })
+        .catch((error) => {
+            if (error.response) {
+                // Request made and server responded
+                this.errorMessage = error.response.data.message
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        });
+        this.loaded = true
+      },
+      async setFeatured() {
+        await axios.post('http://127.0.0.1:4000/events/updateEvent', {
+            params: { Id: this.eventId , query: { Featured : "Yes"} }
+        }).then((res) => {
+            console.log(res)  
+            this.$router.go()   
+        })
+        .catch((error) => {
+            if (error.response) {
+                // Request made and server responded
+                this.errorMessage = error.response.data.message
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        });
+        this.loaded = true
+      }
+   }
 };
 </script>
 
@@ -246,9 +305,24 @@ export default {
                            <h4 class="text-warning border-top border-secondary pt-10 mt-10">{{eventData.approvalStatus}}</h4>
                         </div>
                         <div class="sponsor-thumb">
-                           <div class="alert alert-warning" role="alert">
-                              Your event submission is currently under review. We will notify you of any change in status through email.
-                            </div>
+                           <div v-if="isApproved" class="alert alert-success" role="alert">
+                              Your event submission is approved and active.
+                           </div>
+                           <div v-else class="alert alert-warning" role="alert">
+                               Your event submission is currently under review. We will notify you of any change in status through email.
+                           </div>
+                        </div>
+                     </div>
+                     <div v-if="isAdmin" class="event-sponsor-wrapper mb-30">
+                        <div class="sopnsor-tittle">
+                           <h4>Approval Status </h4>
+                           <h4 :class="`${isApproved ? 'text-success border-top border-secondary pt-10 mt-10' : 'text-warning border-top border-secondary pt-10 mt-10'}`"> {{eventData.approvalStatus}} </h4>
+                        </div>
+                        <div class="sponsor-thumb">
+                           <button v-if="!isApproved" type="button" class="btn btn-success w-100" @click="approveEvent">Approve</button>
+                           <button v-if="isFeatured" type="button" class="btn btn-primary w-100">Remove from featured</button>
+                           <button v-else type="button" class="btn btn-primary w-100" @click="setFeatured">Set as featured</button>
+                           <button type="button" class="btn btn-danger w-100">Disapprove</button>
                         </div>
                      </div>
                   </div>
