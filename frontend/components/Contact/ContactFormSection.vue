@@ -8,41 +8,49 @@
                         <h2>Get in Touch</h2>
                      </div>
                      <div class="contact-form">
-                        <form action="#">
+                        <form @submit.prevent="contactSubmit">
                            <div class="row">
                                  <div class="col-xl-6">
                                     <div class="contact-from-input mb-20">
-                                       <input type="text" placeholder="Name">
+                                       <input v-model="contactData.Name" type="text" placeholder="Name">
                                     </div>
                                  </div>
                                  <div class="col-xl-6">
                                     <div class="contact-from-input mb-20">
-                                       <input type="text" placeholder="Phone">
+                                       <input v-model="contactData.Phone" type="text" placeholder="Phone">
                                     </div>
                                  </div>
                                  <div class="col-xl-6">
                                     <div class="contact-from-input mb-20">
-                                       <input type="text" placeholder="Email">
+                                       <input v-model="contactData.Email" type="text" placeholder="Email">
                                     </div>
                                  </div>
                                  <div class="col-xl-6">
                                     <div class="contact-select">
-                                       <select class="mb-20">
-                                          <option value="Subject">Course</option>
-                                          <option value="Subject">Financial Aid</option>
-                                          <option value="Subject">Payment</option>
-                                          <option value="Subject">Information</option>
+                                       <select v-model="contactData.Subject" class="mb-20">
+                                          <option value="" disabled selected>Subject</option>
+                                          <option value="Query">Query</option>
+                                          <option value="Event Inquiry">Event Inquiry</option>
                                        </select>
                                     </div>
                                  </div>
                                  <div class="col-xl-12">
                                     <div class="contact-from-input mb-20">
-                                       <textarea placeholder="Message" name="message"></textarea>
+                                       <textarea v-model="contactData.Message" placeholder="Message" name="message"></textarea>
                                     </div>
                                  </div>
+                                 <div v-if="contactError" class="my-20 text-center">
+                                    <p class="text-md text-danger">{{errorMessage}}</p>
+                                </div>
+                                <div v-if="contactSubmitted" class="my-20 text-center">
+                                    <p class="text-md text-success">Thank you for contacting us. We will get back to you shortly regarding your request.</p>
+                                </div>
+                                <div v-if="contactEmailError" class="my-20 text-center">
+                                    <p class="text-md text-danger">Please Enter Valid Email</p>
+                                </div>
                                  <div class="colxl-2 ">
                                     <div class="cont-btn mb-20">
-                                       <a href="#" class="cont-btn">Submit</a>
+                                       <button type="submit" class="cont-btn">Submit</button>
                                     </div>
                                  </div>
                               </div>
@@ -137,3 +145,68 @@
          </div>
       </div>
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    name: "app",
+    data() {
+      return {
+         contactData: {
+            Name: '',
+            Email: '',
+            Phone: '',
+            Subject: '',
+            Message: '',
+         },
+         contactSubmitted:false,
+         contactError: false,
+         contactEmailError: false,
+         errorMessage: '',
+      }
+    },
+    methods: {
+        async contactSubmit () {
+            if(this.validateEmail(this.contactData.Email)) {
+                axios.post('http://194.195.118.102:4000/basic/contactSubmit', this.contactData)
+                .then((response) => {
+                    console.log(response)
+                     this.contactError = false
+                     this.contactEmailError = false
+                     this.contactSubmitted = true
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        // Request made and server responded
+                        this.contactError = true;
+                        this.errorMessage = error.response.data.message
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.log(error.request);
+                        this.contactError = true
+                        this.errorMessage = error.request
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                        this.contactError = true
+                        this.errorMessage = error.message
+                    }
+                });
+            }
+            else {
+                this.contactEmailError = true
+            }
+        },
+        validateEmail(data) {
+            console.log(data)
+            const result = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(data)
+            return result
+        },
+
+    }
+}
+</script>

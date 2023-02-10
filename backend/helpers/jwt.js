@@ -19,6 +19,8 @@ function jwt() {
             '/events/getAllFiltered',
             '/events/getEventCount',
             '/events/updateEvent',
+            '/basic/contactSubmit',
+            '/basic/subscribe',
         ]
     });
 }

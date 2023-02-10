@@ -1,17 +1,29 @@
+<template>
+    <div v-if="loaded">
+      <PendingEvents />
+    </div>
+    <div v-else class="d-flex min-vh-100 min-vw-100 justify-content-center">
+        <div class="d-flex justify-content-center  align-items-center">
+            <div class="spinner-grow text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</template>
 <script>
-import PendingEvent from '~~/components/PendingEvent.vue';
+import PendingEvents from '~~/components/Event/PendingEvents.vue';
 
 export default {
   name: "pending",
   components: {
-    PendingEvent,
+    PendingEvents,
   },
   data() {
     return {
       loaded: false,
     }
   },
-  beforeMount() {
+  mounted() {
       if(!process.client) return;
       const loggedIn = localStorage.getItem("loggedIn");
       if(!loggedIn){
@@ -28,18 +40,6 @@ export default {
   }
 };
 </script>
-<template>
-    <div v-if="loaded">
-      <PendingEvent />
-    </div>
-    <div v-else class="d-flex min-vh-100 min-vw-100 justify-content-center">
-        <div class="d-flex justify-content-center  align-items-center">
-            <div class="spinner-grow text-warning" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-    </div>
-</template>
 <style scoped>
 
 </style>

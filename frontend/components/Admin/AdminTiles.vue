@@ -113,7 +113,7 @@ export default {
     },
     methods: {
         async getEventCount() {
-            await axios.get('http://127.0.0.1:4000/events/getEventCount', {
+            await axios.get('http://194.195.118.102:4000/events/getEventCount', {
                params: { approvalStatus : 'Approved'} 
             }).then((res) => {
                 console.log(res.data.EventCount)  
@@ -135,7 +135,7 @@ export default {
             });
         },
         async getPendingCount() {
-            await axios.get('http://127.0.0.1:4000/events/getEventCount', {
+            await axios.get('http://194.195.118.102:4000/events/getEventCount', {
                params: { approvalStatus : 'Pending'} 
             }).then((res) => {
                 console.log(res.data.EventCount)  
@@ -157,7 +157,7 @@ export default {
             });
         },
         async getFeaturedCount() {
-            await axios.get('http://127.0.0.1:4000/events/getEventCount', {
+            await axios.get('http://194.195.118.102:4000/events/getEventCount', {
                params: { Featured : 'Yes'} 
             }).then((res) => {
                 console.log(res.data.EventCount)  

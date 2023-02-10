@@ -118,11 +118,20 @@
                      </div>
                      <div class="col-xl-5 col-lg-5 col-md-12">
                         <div class="copyright-subcribe">
-                           <form action="#" class="widget__subscribe">
+                           <form class="widget__subscribe" @submit.prevent="userSubscribe">
                               <div class="field">
-                                 <input type="email" placeholder="Enter Email">
+                                 <input v-model="subscribeData.Email" type="email" placeholder="Enter Email">
                               </div>
-                              <button type="submit">Subscribe<i class="fas fa-paper-plane"></i></button>
+                              <div v-if="subscribeError" class="my-20 text-center">
+                                 <p class="text-md text-danger">{{errorMessage}}</p>
+                             </div>
+                             <div v-if="subscribed" class="my-20 text-center">
+                                 <p class="text-md text-success">Thank you for subscribing</p>
+                             </div>
+                             <div v-if="subscribeEmailError" class="my-20 text-center">
+                                 <p class="text-md text-danger">Please Enter Valid Email</p>
+                             </div>
+                             <button type="submit">Subscribe<i class="fas fa-paper-plane"></i></button>
                            </form>
                         </div>
                      </div>
@@ -133,3 +142,64 @@
       </div>
    </footer>
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    name: "app",
+    data() {
+      return {
+         subscribeData: {
+            Email: '',
+         },
+         subscribed:false,
+         subscribeError: false,
+         subscribeEmailError: false,
+         errorMessage: '',
+      }
+    },
+    methods: {
+        async userSubscribe () {
+            if(this.validateEmail(this.subscribeData.Email)) {
+                axios.post('http://194.195.118.102:4000/basic/subscribe', this.subscribeData)
+                .then((response) => {
+                    console.log(response)
+                     this.subscribeError = false
+                     this.subscribeEmailError = false
+                     this.subscribed = true
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        // Request made and server responded
+                        this.subscribeError = true;
+                        this.errorMessage = error.response.data.message
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.log(error.request);
+                        this.subscribeError = true
+                        this.errorMessage = error.request
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                        this.subscribeError = true
+                        this.errorMessage = error.message
+                    }
+                });
+            }
+            else {
+                this.subscribeEmailError = true
+            }
+        },
+        validateEmail(data) {
+            console.log(data)
+            const result = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(data)
+            return result
+        },
+
+    }
+}
+</script>

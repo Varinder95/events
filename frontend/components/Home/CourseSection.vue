@@ -14,7 +14,7 @@ export default {
     },
     methods: {
       async getFeaturedEvent() {
-        await axios.get('http://127.0.0.1:4000/events/getAllFiltered', {
+        await axios.get('http://194.195.118.102:4000/events/getAllFiltered', {
             params: { Featured : "Yes"}
         }).then((res) => {
             console.log(res)   
@@ -37,7 +37,7 @@ export default {
          if((this.getData).length !== 0) {
                this.loaded = true
          }
-        },
+      },
    } 
 };
 </script>

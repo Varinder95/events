@@ -11,7 +11,7 @@
             </div>
             <div v-if="loaded" class="row">
                <div class="col-xl-8 col-lg-7">
-                  <div class="single-item mb-30" v-for="data in getData" :key="data.id">
+                  <div class="single-item mb-30" v-for="data in getData.slice(0,4)" :key="data.id">
                      <div class="event_date f-left">
                         <div class="event_date_inner">
                            <h4>{{ data.startDate }}</h4>

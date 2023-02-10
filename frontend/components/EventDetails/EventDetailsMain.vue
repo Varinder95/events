@@ -40,7 +40,7 @@ export default {
    },
    methods: {
       async getEventDetails() {
-        await axios.get('http://127.0.0.1:4000/events/getEventById', {
+        await axios.get('http://194.195.118.102:4000/events/getEventById', {
             params: { Id: this.eventId }
         }).then((res) => {
             console.log(res)   
@@ -73,7 +73,7 @@ export default {
         this.loaded = true
       },
       async approveEvent() {
-        await axios.post('http://127.0.0.1:4000/events/updateEvent', {
+        await axios.post('http://194.195.118.102:4000/events/updateEvent', {
             params: { Id: this.eventId , query: { approvalStatus : "Approved"} }
         }).then((res) => {
             console.log(res)
@@ -97,7 +97,7 @@ export default {
         this.loaded = true
       },
       async setFeatured() {
-        await axios.post('http://127.0.0.1:4000/events/updateEvent', {
+        await axios.post('http://194.195.118.102:4000/events/updateEvent', {
             params: { Id: this.eventId , query: { Featured : "Yes"} }
         }).then((res) => {
             console.log(res)  

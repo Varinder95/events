@@ -10,7 +10,7 @@ import EducationSection from "./EducationSection.vue"
 import BrandSection from "./BrandSection.vue"
 import FooterOne from "../Common/FooterOne"
 import Header from "../Common/Header.vue";
-import UpcomingEvents from "../Event/UpcomingEvents.vue";
+import UpcomingEventsDash from "../Event/UpcomingEventsDash.vue";
 
 export default {
     name: "app",
@@ -27,7 +27,7 @@ export default {
         BrandSection,
         FooterOne,
         Header,
-        UpcomingEvents
+        UpcomingEventsDash
     },
     data() {
         return {
@@ -51,7 +51,7 @@ export default {
         <!-- hero-area-end -->
 
         <!-- Upcoming Events start-->
-        <UpcomingEvents />
+        <UpcomingEventsDash />
         <!-- Upcoming Events end-->
 
         <!-- categories-area-start -->

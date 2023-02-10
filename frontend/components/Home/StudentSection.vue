@@ -64,13 +64,13 @@ export default {
     data() {
         return {
             studentChoose: [{
-                    chooseTitle: 'Free for physically handcraft',
+                    chooseTitle: 'Lorem ipsum dolor sit amet',
                 },
                 {
-                    chooseTitle: 'Easy to enroll courses',
+                    chooseTitle: 'Lorem ipsum dolor sit amet',
                 },
                 {
-                    chooseTitle: 'Course certificate for particular course',
+                    chooseTitle: 'Lorem ipsum dolor sit amet',
                 }
             ],
         }

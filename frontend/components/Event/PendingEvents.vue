@@ -1,11 +1,82 @@
+<template>
+    <div>
+
+        <!-- header-area-start -->
+        <HeaderFour />
+        <!-- header-area-end -->
+
+        <!-- breadcrumbs-area-start -->
+        <PageTitle pageTitle="Events awaiting approval" pageSubTitle="Pending Events" />
+        <!-- breadcrumbs-area-end -->
+
+        <!-- events-area-start -->
+        <div class="cart-area pt-100 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-content table-responsive">
+                          <!-- If there is one or more queries Loading -->
+                          <div v-if="Loading">
+                            Loading
+                          </div>
+                          <!-- Actual view -->
+                          <div v-else>
+                            <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th class="product-thumbnail">Event Name</th>
+                                      <th class="cart-product-name">Created By</th>
+                                      <th class="product-price">Sport</th>
+                                      <th class="product-quantity">Start Date</th>
+                                      <th class="product-subtotal">End Date</th>
+                                      <th class="product-subtotal">Approval Status</th>
+                                      <th class="product-remove">Details</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr v-for="data in getData" :key="data.id">
+                                      <td class="product-name">
+                                          <NuxtLink :to="`/event-details/${data.id}`"> {{ data.Name }} </NuxtLink>
+                                      </td>
+                                      <td class="product-name">
+                                        <span> {{ data.createdByFName }} </span>
+                                      </td>
+                                      <td class="product-subtotal"><span class="amount"> {{ data.Sport }} </span></td>
+                                      <td class="product-price"><span class="amount">{{ data.startDate }}</span></td>
+                                      <td class="product-price"><span class="amount">{{ data.endDate }}</span></td>
+                                      <td class="product-name">
+                                        <span> {{ data.approvalStatus }} </span>
+                                      </td>
+                                      <td class="product-quantity">
+                                          <NuxtLink class="edu-border-btn" :to="`/event-details/${data.id}`">Show Details</NuxtLink>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                            
+                        </div>
+                      </div>
+                  </div>
+            </div>
+        </div>
+        <!-- events-area-end -->
+
+        <!-- footer-area-start -->
+        <FooterOne />
+        <!-- footer-area-end -->
+
+    </div>
+
+</template>
 <script>
-import FooterOne from "./Common/FooterOne.vue";
-import PageTitle from "./Common/PageTitle.vue";
-import HeaderFour from "./Common/HeaderFour.vue";
+import FooterOne from "../Common/FooterOne.vue";
+import PageTitle from "../Common/PageTitle.vue";
+import HeaderFour from "../Common/HeaderFour.vue";
 import axios from 'axios';
 
 export default {
-    name: "PendingEvent",
+    name: "PendingEvents",
     components: {
         FooterOne,
         PageTitle,
@@ -14,9 +85,6 @@ export default {
     data() {
       return {
         getData:'',
-        NoOfRows: '',
-        perPage: 10,
-        currentPage: 1,
         loaded: false,
         Loading: true,
         eventDataReceived: false
@@ -34,7 +102,7 @@ export default {
         this.perPage = this.NoOfRows
       },
       async getEventData() {
-        await axios.get('http://127.0.0.1:4000/events/getAllPending', {
+        await axios.get('http://194.195.118.102:4000/events/getAllPending', {
         }).then((res) => {
             console.log(res)   
             this.getData = res.data
@@ -60,80 +128,9 @@ export default {
         },
     },
     computed: {
-      rows() {
-        return this.getData.length
-      }
     }
 };
 </script>
-
-<template>
-    <div>
-
-        <!-- header-area-start -->
-        <HeaderFour />
-        <!-- header-area-end -->
-
-        <!-- course-area-start -->
-        <PageTitle pageTitle="Events awaiting approval" pageSubTitle="Pending Events" />
-        <!-- course-area-end -->
-
-        <!-- wishlist-area-start -->
-        <div class="cart-area pt-100 pb-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-content table-responsive">
-                          <!-- If there is one or more queries Loading -->
-                          <div v-if="Loading">
-                            Loading
-                          </div>
-                          <!-- Actual view -->
-                          <div v-else>
-                            <table class="table">
-                              <thead>
-                                  <tr>
-                                      <th class="product-thumbnail">Event Name</th>
-                                      <th class="cart-product-name">Created By</th>
-                                      <th class="product-price">Sport</th>
-                                      <th class="product-quantity">Start Date</th>
-                                      <th class="product-subtotal">End Date</th>
-                                      <th class="product-remove">Details</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr v-for="data in getData" :key="data.id">
-                                      <td class="product-name">
-                                          <NuxtLink :to="`/event-details/${data.id}`"> {{ data.Name }} </NuxtLink>
-                                      </td>
-                                      <td class="product-name">
-                                        <span> {{ data.createdByFName }} </span>
-                                      </td>
-                                      <td class="product-subtotal"><span class="amount"> {{ data.Sport }} </span></td>
-                                      <td class="product-price"><span class="amount">{{ data.startDate }}</span></td>
-                                      <td class="product-price"><span class="amount">{{ data.endDate }}</span></td>
-                                      <td class="product-quantity">
-                                          <NuxtLink class="edu-border-btn" :to="`/event-details/${data.id}`">Show Details</NuxtLink>
-                                      </td>
-                                  </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                            
-                        </div>
-                      </div>
-                  </div>
-            </div>
-        </div>
-        <!-- wishlist-area-end -->
-
-        <!-- footer-area-start -->
-        <FooterOne />
-        <!-- footer-area-end -->
-
-    </div>
-
-</template>
 
 <style scoped>
 </style>

@@ -18,10 +18,10 @@
                     <h3>Event details</h3>
                 </div>
                 <div class="signup-input-wrapper">
-                    <input v-model="EventData.Name" type="text" placeholder="Event Name">
+                    <input required v-model="EventData.Name" type="text" placeholder="Event Name">
                 </div>
                 <div class="signup-wrapper">
-                    <select v-model="EventData.Sport" class="form-select">
+                    <select v-model="EventData.Sport" class="form-select" required>
                         <option value="" disabled selected>Select Sport *</option>
                         <option value="Cricket">Cricket</option>
                         <option value="Football">Football</option>
@@ -32,7 +32,7 @@
                     </select>
                 </div>
                 <div class="signup-wrapper">
-                    <select v-model="EventData.Category" class="form-select">
+                    <select v-model="EventData.Category" class="form-select" required>
                         <option value="" disabled selected>Category *</option>
                         <option value="Indoor">Indoor</option>
                         <option value="Outdoor">Outdoor</option>
@@ -41,15 +41,15 @@
                 </div>
                 <div class="signup-wrapper">
                     <label for="fromDate">From *</label>
-                    <input v-model="EventData.startDate" type="Date" name="fromDate">
+                    <input required v-model="EventData.startDate" type="Date" name="fromDate">
                 </div>
                 <div class="signup-wrapper">
                     <label for="toDate">To *</label>
-                    <input v-model="EventData.endDate" type="Date" name="toDate">
+                    <input required v-model="EventData.endDate" type="Date" name="toDate">
                 </div>
                 <div class="signup-wrapper">
                     <label for="time">Time of Event *</label>
-                    <input v-model="EventData.Time" type="time" class="form-select" name="time" placeholder="Event Time">
+                    <input required v-model="EventData.Time" type="time" class="form-select" name="time" placeholder="Event Time">
                 </div>
                 <div class="signup-input-wrapper mb-20">
                     <textarea v-model="EventData.Description" class="form-textarea" rows="3" placeholder="Event Description"></textarea>
@@ -87,22 +87,22 @@
                     <textarea v-model="EventData.Rules" class="form-textarea" rows="3" placeholder="Event Rules and Regulations"></textarea>
                 </div>
                 <div class="signup-input-wrapper">
-                    <input v-model="EventData.entryFee" type="text" placeholder="Event Entry Fees">
+                    <input required v-model="EventData.entryFee" type="text" placeholder="Event Entry Fees">
                 </div>
                 <div class="mt-10 mb-10">
                     <h3>Organiser details</h3>
                 </div>
                 <div class="signup-input-wrapper">
-                    <input v-model="EventData.Organiser1Name" type="text" placeholder="First Organiser Name">
+                    <input required v-model="EventData.Organiser1Name" type="text" placeholder="First Organiser Name">
                 </div>
                 <div class="signup-input-wrapper">
-                    <input v-model="EventData.Organiser1Phone" type="text" placeholder="First Organiser Number">
+                    <input required v-model="EventData.Organiser1Phone" type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="First Organiser Number">
                 </div>
                 <div class="signup-input-wrapper">
-                    <input v-model="EventData.Organiser2Name" type="text" placeholder="Second Organiser Name">
+                    <input required v-model="EventData.Organiser2Name" type="text" placeholder="Second Organiser Name">
                 </div>
                 <div class="signup-input-wrapper">
-                    <input v-model="EventData.Organiser2Phone" type="text" placeholder="Second Organiser Number">
+                    <input required v-model="EventData.Organiser2Phone" type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Second Organiser Number">
                 </div>
                 <div v-if="EventError" class="my-20 text-center">
                     <p class="text-md text-danger">{{errorMessage}}</p>
@@ -140,10 +140,10 @@ export default {
                 createdByLName: '',
                 Address: '',
                 Landmark: '',
-                Prize1: '',
-                Prize2: '',
-                Prize3: '',
-                consolationPrize: '',
+                Prize1: null,
+                Prize2: null,
+                Prize3: null,
+                consolationPrize: null,
                 Time: '',
                 Location: '',
                 Rules: '',
@@ -168,7 +168,7 @@ export default {
             this.EventData.createdById = data.id;
             this.EventData.createdByFName = data.FName;
             this.EventData.createdByLName = data.LName;
-            axios.post('http://127.0.0.1:4000/events/createEvent', this.EventData)
+            axios.post('http://194.195.118.102:4000/events/createEvent', this.EventData)
                 .then((response) => {
                     console.log(response)
                     this.addEventId = response.data.id

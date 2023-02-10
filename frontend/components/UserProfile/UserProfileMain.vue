@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         async getEventData() {
-        await axios.get('http://127.0.0.1:4000/events/getAllByUser', {
+        await axios.get('http://194.195.118.102:4000/events/getAllByUser', {
             params: { userId: this.UserData.id }
         }).then((res) => {
             console.log(res)   

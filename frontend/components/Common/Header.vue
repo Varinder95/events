@@ -125,7 +125,7 @@
                                     <div class="header-search d-none d-xxl-block mr-30">
                                         <form action="#">
                                             <div class="search-icon p-relative">
-                                                <input type="text" placeholder="Search courses...">
+                                                <input required type="text" placeholder="Search courses...">
                                                 <button type="submit"><i class="fas fa-search"></i></button>
                                             </div>
                                         </form>
@@ -227,7 +227,7 @@
                     <div class="offset-widget offset_searchbar mb-30">
                         <div class="menu-search position-relative ">
                             <form action="#" class="filter-search-input">
-                                <input type="text" placeholder="Search keyword">
+                                <input required type="text" placeholder="Search keyword">
                                 <button><i class="fal fa-search"></i></button>
                             </form>
                         </div>
@@ -262,7 +262,7 @@
                                         <path id="Path_32" data-name="Path 32"
                                             d="M21.768,9H18.754A.754.754,0,0,0,18,9.754v3.015a.754.754,0,0,0,.754.754h3.015a.754.754,0,0,0,.754-.754V9.754A.754.754,0,0,0,21.768,9Z"
                                             transform="translate(-4.434 -2.217)" fill="#141517"></path>
-                                        <path id="Path_33" data-name="Path 33"
+                                            event                    <path id="Path_33" data-name="Path 33"
                                             d="M21.768,18H18.754a.754.754,0,0,0-.754.754v3.015a.754.754,0,0,0,.754.754h3.015a.754.754,0,0,0,.754-.754V18.754A.754.754,0,0,0,21.768,18Z"
                                             transform="translate(-4.434 -4.434)" fill="#141517"></path>
                                     </svg> <span class="text">Category</span></figure>
@@ -326,7 +326,7 @@
         <!-- Mobile Menu End -->
 
         <!-- sigin-area start-->
-        <div :class="`${showSignIn ? 'signin-area open position-absolute' : 'signin-area'}`">
+        <div :class="`${showSignIn ? 'signin-area open position-fixed' : 'signin-area'}`">
             <div class="signin-area-wrapper">
                 <div class="signup-box text-center">
                     <div class="signup-text">
@@ -338,16 +338,10 @@
                 </div>
                 <form class="signup-form-wrapper" @submit.prevent="userLogin">
                     <div class="signup-wrapper">
-                        <input v-model="SignInEmail" type="text" placeholder="Email or Username">
+                        <input required v-model="SignInEmail" type="text" placeholder="Email or Username">
                     </div>
                     <div class="signup-wrapper">
-                        <input v-model="SignInPass" type="password" placeholder="Password">
-                    </div>
-                    <div class="signup-action">
-                        <div class="course-sidebar-list">
-                            <input class="signup-checkbo" type="checkbox" id="sing-in">
-                            <label class="sign-check" for="sing-in"><span>Remember me</span></label>
-                        </div>
+                        <input required v-model="SignInPass" type="password" placeholder="Password">
                     </div>
                     <div v-if="SignInError" class="my-20 text-center">
                         <p class="text-md text-danger">{{errorMessage}}</p>
@@ -411,7 +405,7 @@
         <!-- sigin-area end-->
 
         <!-- signup-area-start -->
-        <div :class="`${showSignUp ? 'signup-area open position-absolute' : 'signup-area'}`">
+        <div :class="`${showSignUp ? 'signup-area open position-fixed' : 'signup-area'}`">
             <div class="sign-up-wrapper">
                 <div class="signup-box text-center ">
                     <div class="signup-text">
@@ -426,30 +420,30 @@
                 </div>
                 <form class="signup-form-wrapper" @submit.prevent="userRegister">
                     <div class="signup-input-wrapper">
-                        <input v-model="SignUpData.FName" type="text" placeholder="First Name">
-                        <input v-model="SignUpData.LName" type="text" placeholder="Last Name">
+                        <input required v-model="SignUpData.FName" type="text" placeholder="First Name">
+                        <input required v-model="SignUpData.LName" type="text" placeholder="Last Name">
                     </div>
                     <div class="signup-wrapper">
                         <label for="DOB">Date of Birth</label>
-                        <input v-model="SignUpData.DOB" type="Date" name="DOB">
+                        <input required v-model="SignUpData.DOB" type="Date" name="DOB">
                     </div>
                     <div class="signup-wrapper">
                         <label>Gender *</label>
-                        <select v-model="SignUpData.Gender" class="form-select">
+                        <select v-model="SignUpData.Gender" class="form-select" required>
                             <option value="" disabled selected>Gender *</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
                     <div class="signup-wrapper">
-                        <input v-model="SignUpData.Email" type="text" placeholder="Email">
+                        <input required v-model="SignUpData.Email" type="text" placeholder="Email">
                     </div>
                     <div class="signup-wrapper">
-                        <input v-model="SignUpData.password" type="password" placeholder="Password">
+                        <input required v-model="SignUpData.password" type="password" placeholder="Password">
                     </div>
                     <div class="signup-wrapper">
                         <label>Preffered Sport *</label>
-                        <select v-model="SignUpData.PrefferedSport" class="form-select">
+                        <select v-model="SignUpData.PrefferedSport" class="form-select" required>
                             <option value="" disabled selected>Preffered Sports *</option>
                             <option value="Cricket">Cricket</option>
                             <option value="Football">Football</option>
@@ -461,7 +455,7 @@
                     </div>
                     <div class="signup-wrapper">
                         <label>Preffered State *</label>
-                        <select v-model="SignUpData.prefferedLocation" class="form-select">
+                        <select v-model="SignUpData.prefferedLocation" class="form-select" required>
                             <option value="" disabled selected>Preffered State *</option>
                             <option value="Delhi">Delhi</option>
                             <option value="Haryana">Haryana</option>
@@ -473,7 +467,7 @@
                     </div>
                     <div class="signup-action">
                         <div class="course-sidebar-list">
-                            <input class="signup-checkbo" type="checkbox" id="sing-up">
+                            <input required class="signup-checkbo" type="checkbox" id="sing-up">
                             <label class="sign-check" for="sing-up"><span>Accept the terms and <a href="#">Privacy
                                         Policy</a></span></label>
                         </div>
@@ -634,8 +628,7 @@ export default {
         },
         async userRegister () {
             if(this.validateEmail(this.SignUpData.Email)) {
-                const headers = { 'Content-Type': 'multipart/form-data' };
-                axios.post('http://127.0.0.1:4000/users/register', this.SignUpData, { headers })
+                axios.post('http://194.195.118.102:4000/users/register', this.SignUpData)
                 .then((response) => {
                     console.log(response)
                     localStorage.setItem('loggedIn', true)
@@ -669,11 +662,10 @@ export default {
         },
         async userLogin () {
             if(this.validateEmail(this.SignInEmail)) {
-                const headers = { 'Content-Type': 'application/json' };
-                axios.post('http://127.0.0.1:4000/users/authenticate', {
+                axios.post('http://194.195.118.102:4000/users/authenticate', {
                         Email: this.SignInEmail,
                         password: this.SignInPass
-                    }, { headers }).then((res) => {   
+                    }).then((res) => {   
                     localStorage.setItem('loggedIn', true)
                     localStorage.setItem('UserData', JSON.stringify(res.data))
                     this.$router.go('/dashboard')
