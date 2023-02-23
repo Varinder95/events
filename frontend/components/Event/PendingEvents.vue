@@ -42,8 +42,8 @@
                                         <span> {{ data.createdByFName }} </span>
                                       </td>
                                       <td class="product-subtotal"><span class="amount"> {{ data.Sport }} </span></td>
-                                      <td class="product-price"><span class="amount">{{ data.startDate }}</span></td>
-                                      <td class="product-price"><span class="amount">{{ data.endDate }}</span></td>
+                                      <td class="product-price"><span class="amount">{{ getDateFormat(data.startDate) }}</span></td>
+                                      <td class="product-price"><span class="amount">{{ getDateFormat(data.endDate) }}</span></td>
                                       <td class="product-name">
                                         <span> {{ data.approvalStatus }} </span>
                                       </td>
@@ -53,6 +53,20 @@
                                   </tr>
                               </tbody>
                             </table>
+                            <div class="mt-10">
+                              <paginate
+                                v-model="page"
+                                :page-count="pageCount"
+                                :page-range="3"
+                                :margin-pages="2"
+                                :click-handler="clickCallback"
+                                :prev-text="'Prev'"
+                                :next-text="'Next'"
+                                :container-class="'pagination justify-content-center'"
+                                :page-class="'page-item'"
+                              >
+                              </paginate>
+                            </div>
                           </div>
                             
                         </div>
@@ -73,6 +87,7 @@
 import FooterOne from "../Common/FooterOne.vue";
 import PageTitle from "../Common/PageTitle.vue";
 import HeaderFour from "../Common/HeaderFour.vue";
+import VuejsPaginateNext from "../Common/Pagination.vue";
 import axios from 'axios';
 
 export default {
@@ -80,14 +95,19 @@ export default {
     components: {
         FooterOne,
         PageTitle,
-        HeaderFour
+        HeaderFour,
+        paginate: VuejsPaginateNext,
     },
     data() {
       return {
         getData:'',
         loaded: false,
         Loading: true,
-        eventDataReceived: false
+        eventDataReceived: false,
+        pageCount: '',
+        page: 1,
+        size: 10
+
       }
     },
     mounted() {
@@ -98,14 +118,22 @@ export default {
         this.getEventData()
     },
     methods:{
+      clickCallback: function () {
+        this.getEventData()
+      },
       ChangeNoRows() {
         this.perPage = this.NoOfRows
       },
       async getEventData() {
-        await axios.get('http://194.195.118.102:4000/events/getAllPending', {
+        await axios.get('http://127.0.0.1:4000/events/getAllPending', {
+          params : {
+            page : this.page,
+            size : this.size
+          }
         }).then((res) => {
-            console.log(res)   
-            this.getData = res.data
+            console.log(res.data)   
+            this.getData = res.data.docs
+            this.pageCount = res.data.totalPages
         })
         .catch((error) => {
             if (error.response) {
@@ -120,12 +148,17 @@ export default {
                 // Something happened in setting up the request that triggered an Error
                 console.log('Error', error.message);
             }
-        });
-        if((this.getData).length !== 0) {
-            this.eventDataReceived = true
-        }
+          });
+          if((this.getData).length !== 0) {
+              this.eventDataReceived = true
+          }
           this.Loading = false
         },
+      getDateFormat(dateValue) {
+         var dateObj = new Date(dateValue)
+         var formattedDate = `${("0" + dateObj.getDate()).slice(-2)}/${("0" + (dateObj.getMonth()+1)).slice(-2)}/${dateObj.getFullYear()}`
+         return formattedDate
+      }
     },
     computed: {
     }

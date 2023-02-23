@@ -34,7 +34,7 @@ export default {
         this.perPage = this.NoOfRows
       },
       async getEventData() {
-        await axios.get('http://194.195.118.102:4000/events/getAllPending', {
+        await axios.get('http://127.0.0.1:4000/events/getAllPending', {
         }).then((res) => {
             console.log(res)   
             this.getData = res.data

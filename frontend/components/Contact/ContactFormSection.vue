@@ -169,12 +169,17 @@ export default {
     methods: {
         async contactSubmit () {
             if(this.validateEmail(this.contactData.Email)) {
-                axios.post('http://194.195.118.102:4000/basic/contactSubmit', this.contactData)
+                axios.post('http://127.0.0.1:4000/basic/contactSubmit', this.contactData)
                 .then((response) => {
                     console.log(response)
                      this.contactError = false
                      this.contactEmailError = false
                      this.contactSubmitted = true
+                     this.contactData.Name = ''
+                     this.contactData.Email = ''
+                     this.contactData.Phone = ''
+                     this.contactData.Subject = ''
+                     this.contactData.Message = ''
                 })
                 .catch((error) => {
                     if (error.response) {

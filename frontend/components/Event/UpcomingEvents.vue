@@ -14,8 +14,8 @@
                   <div class="single-item mb-30" v-for="data in getData" :key="data.id">
                      <div class="event_date f-left">
                         <div class="event_date_inner">
-                           <h4>{{ data.startDate }}</h4>
-                           <span>{{ data.endDate }}</span>
+                           <h4>{{ getDateFormat(data.startDate) }}</h4>
+                           <span>{{ getDateFormat(data.endDate) }}</span>
                         </div>
                      </div>
                      <div class="event_info">
@@ -43,8 +43,25 @@
                         </div>
                      </div>
                      <div class="get-ticket-btn">
-                        <NuxtLink class="get-btn" :to="`/event-details/${data.id}`">Show Details</NuxtLink>
+                        <h4 v-if="status(data.startDate, data.endDate) == 'Upcoming Soon'" class="text-success text-center pt-10 pb-10 mt-10">{{status(data.startDate, data.endDate)}} </h4>
+                        <h4 v-else-if="status(data.startDate, data.endDate) == 'In Progress'" class="text-warning pt-10 mt-10">{{status(data.startDate, data.endDate)}} </h4>
+                        <h4 v-else class="text-danger pt-10 mt-10">{{status(data.startDate, data.endDate)}} </h4>
+                        <NuxtLink class="get-btn mt-30" :to="`/event-details/${data.id}`">Show Details</NuxtLink>
                      </div>
+                  </div>
+                  <div class="mt-10">
+                    <paginate
+                      v-model="page"
+                      :page-count="pageCount"
+                      :page-range="3"
+                      :margin-pages="2"
+                      :click-handler="clickCallback"
+                      :prev-text="'Prev'"
+                      :next-text="'Next'"
+                      :container-class="'pagination justify-content-center'"
+                      :page-class="'page-item'"
+                    >
+                    </paginate>
                   </div>
                </div>
                <div class="col-xl-4 col-lg-5 col-md-8">
@@ -57,25 +74,62 @@
                               </div>
                               <div class="find-event-wrapper mb-25">
                                  <div class="find-event-input">
-                                    <input type="date">
-                                    <i class="flaticon-calendar"></i>
+                                    <input v-model="searchDate" type="date">
                                  </div>
                               </div>
                               <div class="find-event-wrapper mb-25">
                                  <div class="find-event-input">
-                                    <input type="text" placeholder="Location">
+                                    <select v-model="searchLocation" class="find-event-select">
+                                       <option value="" selected>All States</option>
+                                       <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                       <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                       <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                       <option value="Assam">Assam</option>
+                                       <option value="Bihar">Bihar</option>
+                                       <option value="Chandigarh">Chandigarh</option>
+                                       <option value="Chhattisgarh">Chhattisgarh</option>
+                                       <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                                       <option value="Daman and Diu">Daman and Diu</option>
+                                       <option value="Delhi">Delhi</option>
+                                       <option value="Lakshadweep">Lakshadweep</option>
+                                       <option value="Puducherry">Puducherry</option>
+                                       <option value="Goa">Goa</option>
+                                       <option value="Gujarat">Gujarat</option>
+                                       <option value="Haryana">Haryana</option>
+                                       <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                       <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                       <option value="Jharkhand">Jharkhand</option>
+                                       <option value="Karnataka">Karnataka</option>
+                                       <option value="Kerala">Kerala</option>
+                                       <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                       <option value="Maharashtra">Maharashtra</option>
+                                       <option value="Manipur">Manipur</option>
+                                       <option value="Meghalaya">Meghalaya</option>
+                                       <option value="Mizoram">Mizoram</option>
+                                       <option value="Nagaland">Nagaland</option>
+                                       <option value="Odisha">Odisha</option>
+                                       <option value="Punjab">Punjab</option>
+                                       <option value="Rajasthan">Rajasthan</option>
+                                       <option value="Sikkim">Sikkim</option>
+                                       <option value="Tamil Nadu">Tamil Nadu</option>
+                                       <option value="Telangana">Telangana</option>
+                                       <option value="Tripura">Tripura</option>
+                                       <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                       <option value="Uttarakhand">Uttarakhand</option>
+                                       <option value="West Bengal">West Bengal</option>
+                                    </select>
                                     <i class="flaticon-pin-1"></i>
                                  </div>
                               </div>
                               <div class="find-event-wrapper mb-25">
                                  <div class="find-event-input">
-                                    <input type="text" placeholder="Search keyword....">
+                                    <input v-model="searchQuery" type="text" placeholder="Search keyword....">
                                     <i class="flaticon-search"></i>
                                  </div>
                               </div>
                            </div>
                            <div class="zoom-btn">
-                              <NuxtLink to="/event" class="event-btn">Find Event</NuxtLink>
+                              <NuxtLink :to="`/search/?find=${searchQuery}&location=${searchLocation}&date=${searchDate}`" class="event-btn">Find Event</NuxtLink>
                            </div>
                         </div>
                      </div>
@@ -93,26 +147,63 @@
 <script>
 
 import axios from 'axios';
+import VuejsPaginateNext from "../Common/Pagination.vue";
 
 export default {
    name: "UpcomingEventsDash",
-   components: {},
+   components: {
+        paginate: VuejsPaginateNext,
+      },
     data() {
       return {
+        searchQuery: '',
+        searchDate: '',
+        searchLocation: '',
         getData:'',
         loaded: false,
+        pageCount: '',
+        page: 1,
+        size: 10
       }
     },
     mounted() {
         this.getApprovedEvent()
     },
     methods: {
+      status(startDate, endDate) {
+         const currentDate = new Date()
+         var eventStartDate = new Date(startDate)
+         var eventEndDate = new Date(endDate)
+         if(eventEndDate < currentDate) {
+            return "Expired"
+         }
+         else if(eventStartDate <= currentDate && currentDate < eventEndDate) {
+            return "In Progress"
+         }
+         else {
+            return "Upcoming Soon"
+         }
+      },
+      clickCallback: function () {
+        this.getEventData()
+      },
       async getApprovedEvent() {
-        await axios.get('http://194.195.118.102:4000/events/getAllFiltered', {
-            params: { approvalStatus : "Approved"}
+         var dataQuery = {
+            $and: [
+               { approvalStatus : "Approved"},
+               { startDate: {$gt: new Date()}}
+            ]
+         }
+        await axios.get('http://127.0.0.1:4000/events/getAllFiltered', {
+            params: { 
+               dataQuery: dataQuery,
+               page: this.page,
+               size: this.size
+            }
         }).then((res) => {
             console.log(res)   
-            this.getData = res.data
+            this.getData = res.data.docs
+            this.pageCount = res.data.totalPages
         })
         .catch((error) => {
             if (error.response) {
@@ -132,9 +223,22 @@ export default {
                this.loaded = true
          }
       },
+      getDateFormat(dateValue) {
+         var dateObj = new Date(dateValue)
+         var formattedDate = `${("0" + dateObj.getDate()).slice(-2)}/${("0" + (dateObj.getMonth()+1)).slice(-2)}/${dateObj.getFullYear()}`
+         return formattedDate
+      }
    } 
 };
 </script>
 
 <style scoped>
+.find-event-select {
+   background: #fff;
+   border: 0;
+   border-radius: 4px;
+   height: 55px;
+   outline: none;
+   padding: 0 20px;
+}
 </style>

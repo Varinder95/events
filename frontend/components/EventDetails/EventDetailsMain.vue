@@ -20,7 +20,8 @@ export default {
          selfUpload: false,
          isAdmin: false,
          isApproved: false,
-         isFeatured: false
+         isFeatured: false,
+         status: ''
       }
    },
    components: {
@@ -32,7 +33,6 @@ export default {
       this.getEventDetails()
       if (localStorage.loggedIn) {
          this.loggedIn = localStorage.loggedIn;
-         this.loggedIn = localStorage.loggedIn;
          if(JSON.parse(localStorage.UserData).Status === "Admin") {
              this.isAdmin = true
          }
@@ -40,7 +40,7 @@ export default {
    },
    methods: {
       async getEventDetails() {
-        await axios.get('http://194.195.118.102:4000/events/getEventById', {
+        await axios.get('http://127.0.0.1:4000/events/getEventById', {
             params: { Id: this.eventId }
         }).then((res) => {
             console.log(res)   
@@ -53,6 +53,19 @@ export default {
             }
             if(this.eventData.Featured === "Yes") {
                 this.isFeatured = true
+            }
+            const currentDate = new Date()
+            var eventStartDate = new Date(this.eventData.startDate)
+            var eventEndDate = new Date(this.eventData.endDate)
+            
+            if(eventEndDate < currentDate) {
+               this.status = "Expired"
+            }
+            else if(eventStartDate <= currentDate && currentDate < eventEndDate) {
+               this.status = "In Progress"
+            }
+            else {
+               this.status = "Upcoming Soon"
             }
         })
         .catch((error) => {
@@ -73,7 +86,7 @@ export default {
         this.loaded = true
       },
       async approveEvent() {
-        await axios.post('http://194.195.118.102:4000/events/updateEvent', {
+        await axios.post('http://127.0.0.1:4000/events/updateEvent', {
             params: { Id: this.eventId , query: { approvalStatus : "Approved"} }
         }).then((res) => {
             console.log(res)
@@ -94,10 +107,55 @@ export default {
                 console.log('Error', error.message);
             }
         });
-        this.loaded = true
+      },
+      async disapproveEvent() {
+        await axios.post('http://127.0.0.1:4000/events/updateEvent', {
+            params: { Id: this.eventId , query: { approvalStatus : "Disapproved"} }
+        }).then((res) => {
+            console.log(res)
+            this.removeFeatured()   
+        })
+        .catch((error) => {
+            if (error.response) {
+                // Request made and server responded
+                this.errorMessage = error.response.data.message
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        });
+      },
+      async removeFeatured() {
+        await axios.post('http://127.0.0.1:4000/events/updateEvent', {
+            params: { Id: this.eventId , query: { Featured : "No"} }
+        }).then((res) => {
+            console.log(res)  
+            this.$router.go()   
+        })
+        .catch((error) => {
+            if (error.response) {
+                // Request made and server responded
+                this.errorMessage = error.response.data.message
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        });
       },
       async setFeatured() {
-        await axios.post('http://194.195.118.102:4000/events/updateEvent', {
+        await axios.post('http://127.0.0.1:4000/events/updateEvent', {
             params: { Id: this.eventId , query: { Featured : "Yes"} }
         }).then((res) => {
             console.log(res)  
@@ -118,7 +176,11 @@ export default {
                 console.log('Error', error.message);
             }
         });
-        this.loaded = true
+      },
+      getDateFormat(dateValue) {
+         var dateObj = new Date(dateValue)
+         var formattedDate = `${("0" + dateObj.getDate()).slice(-2)}/${("0" + (dateObj.getMonth()+1)).slice(-2)}/${dateObj.getFullYear()}`
+         return formattedDate
       }
    }
 };
@@ -164,9 +226,6 @@ export default {
                            <p class="text-center">Category</p>
                            <span class="text-center">{{eventData.Category}}</span>
                         </div>
-                     </div>
-                     <div class="event-details-thumb w-img mb-20">
-                        <img src="/img/event/event-details-img.jpg" alt="event-img">
                      </div>
                      <div class="event-contact-info">
                         <h2>{{eventData.Name}}</h2>
@@ -246,7 +305,7 @@ export default {
                                     <span>Start Date</span>
                                  </div>
                                  <div class="information-list">
-                                    <span>{{eventData.startDate}}</span>
+                                    <span>{{getDateFormat(eventData.startDate)}}</span>
                                  </div>
                               </li>
                               <li>
@@ -255,7 +314,7 @@ export default {
                                     <span>End Date</span>
                                  </div>
                                  <div class="information-list">
-                                    <span>{{eventData.endDate}}</span>
+                                    <span>{{getDateFormat(eventData.endDate)}}</span>
                                  </div>
                               </li>
                               <li>
@@ -296,33 +355,53 @@ export default {
                               </li>
                            </ul>
                         </div>
-                        <NuxtLink to="/contact" class="event-btn">Join this Event</NuxtLink>
+                        <div v-if="status === 'Expired'">
+                           <h4 class="text-danger border-top border-secondary pt-10 mt-10"><span class="text-black font-bold">Status : </span>{{status}} </h4>
+                        </div>
+                        <div v-else>
+                           <h4 v-if="status === 'Upcoming Soon'" class="text-success text-center border-top border-bottom border-secondary pt-10 pb-10 mt-10"><span class="text-black font-bold">Status : </span>{{status}} </h4>
+                           <h4 v-else class="text-warning border-top border-secondary pt-10 mt-10"><span class="text-black font-bold">Status : </span>{{status}} </h4>
+                           <NuxtLink to="/contact" :class="`${isApproved ? 'event-btn border-top border-secondary mt-30' : 'd-none'}`">Join this Event</NuxtLink>
+                        </div>
                      </div>
 
                      <div v-if="selfUpload" class="event-sponsor-wrapper mb-30">
                         <div class="sopnsor-tittle">
                            <h4>Approval Status </h4>
-                           <h4 class="text-warning border-top border-secondary pt-10 mt-10">{{eventData.approvalStatus}}</h4>
+                           <h4 v-if="eventData.approvalStatus === 'Approved'" class="text-success border-top border-secondary pt-10 mt-10"> {{eventData.approvalStatus}} </h4>
+                           <h4 v-else-if="eventData.approvalStatus === 'Disapproved'" class="text-danger border-top border-secondary pt-10 mt-10"> {{eventData.approvalStatus}} </h4>
+                           <h4 v-else class="text-warning border-top border-secondary pt-10 mt-10"> {{eventData.approvalStatus}} </h4>
                         </div>
                         <div class="sponsor-thumb">
-                           <div v-if="isApproved" class="alert alert-success" role="alert">
+                           <div v-if="eventData.approvalStatus === 'Approved'" class="alert alert-success" role="alert">
                               Your event submission is approved and active.
+                           </div>
+                           <div v-else-if="eventData.approvalStatus === 'Disapproved'" class="alert alert-danger" role="alert">
+                              Your event submission is Disapproved and inactive. Please contact us for more info.
                            </div>
                            <div v-else class="alert alert-warning" role="alert">
                                Your event submission is currently under review. We will notify you of any change in status through email.
                            </div>
+                           <NuxtLink :to="`/edit-event/${eventId}`" class="btn btn-primary w-100" >Edit Event</NuxtLink>
                         </div>
                      </div>
                      <div v-if="isAdmin" class="event-sponsor-wrapper mb-30">
                         <div class="sopnsor-tittle">
                            <h4>Approval Status </h4>
-                           <h4 :class="`${isApproved ? 'text-success border-top border-secondary pt-10 mt-10' : 'text-warning border-top border-secondary pt-10 mt-10'}`"> {{eventData.approvalStatus}} </h4>
+                           <h4 v-if="eventData.approvalStatus === 'Approved'" class="text-success border-top border-secondary pt-10 mt-10"> {{eventData.approvalStatus}} </h4>
+                           <h4 v-else-if="eventData.approvalStatus === 'Disapproved'" class="text-danger border-top border-secondary pt-10 mt-10"> {{eventData.approvalStatus}} </h4>
+                           <h4 v-else class="text-warning border-top border-secondary pt-10 mt-10"> {{eventData.approvalStatus}} </h4>
                         </div>
                         <div class="sponsor-thumb">
-                           <button v-if="!isApproved" type="button" class="btn btn-success w-100" @click="approveEvent">Approve</button>
-                           <button v-if="isFeatured" type="button" class="btn btn-primary w-100">Remove from featured</button>
-                           <button v-else type="button" class="btn btn-primary w-100" @click="setFeatured">Set as featured</button>
-                           <button type="button" class="btn btn-danger w-100">Disapprove</button>
+                           <div class="w-100" v-if="!isApproved">
+                              <button type="button" class="btn btn-success w-100" @click="approveEvent">Approve</button>
+                           </div>
+                           <div class="w-100" v-else>
+                              <button v-if="isFeatured" type="button" class="btn btn-danger w-100" @click="removeFeatured">Remove from featured</button>
+                              <button v-else type="button" class="btn btn-primary w-100" @click="setFeatured">Set as featured</button>
+                           </div>
+                           <button type="button" class="btn btn-danger w-100" @click="disapproveEvent">Disapprove</button>
+                           <NuxtLink :to="`/edit-event/${eventId}`" class="btn btn-primary w-100" >Edit Event</NuxtLink>
                         </div>
                      </div>
                   </div>

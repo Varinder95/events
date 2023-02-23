@@ -14,67 +14,6 @@
                                     <i class="fal fa-map-marker-alt"></i><span>3rd Avenue, San Francisco</span>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end col-xl-4 col-lg-4">
-                                <div class="category-menu d-block">
-                                    <div class="Category-click">
-                                        <figure class="cattext"><svg class="icons" id="menu_1_" data-name="menu (1)"
-                                                xmlns="http://www.w3.org/2000/svg" width="18.087" height="18.087"
-                                                viewBox="0 0 18.087 18.087">
-                                                <path id="Path_25" data-name="Path 25"
-                                                    d="M3.768,0H.754A.754.754,0,0,0,0,.754V3.768a.754.754,0,0,0,.754.754H3.768a.754.754,0,0,0,.754-.754V.754A.754.754,0,0,0,3.768,0Z"
-                                                    fill="#141517"></path>
-                                                <path id="Path_26" data-name="Path 26"
-                                                    d="M3.768,9H.754A.754.754,0,0,0,0,9.754v3.015a.754.754,0,0,0,.754.754H3.768a.754.754,0,0,0,.754-.754V9.754A.754.754,0,0,0,3.768,9Z"
-                                                    transform="translate(0 -2.217)" fill="#141517"></path>
-                                                <path id="Path_27" data-name="Path 27"
-                                                    d="M3.768,18H.754A.754.754,0,0,0,0,18.754v3.015a.754.754,0,0,0,.754.754H3.768a.754.754,0,0,0,.754-.754V18.754A.754.754,0,0,0,3.768,18Z"
-                                                    transform="translate(0 -4.434)" fill="#141517"></path>
-                                                <path id="Path_28" data-name="Path 28"
-                                                    d="M12.768,0H9.754A.754.754,0,0,0,9,.754V3.768a.754.754,0,0,0,.754.754h3.015a.754.754,0,0,0,.754-.754V.754A.754.754,0,0,0,12.768,0Z"
-                                                    transform="translate(-2.217)" fill="#141517"></path>
-                                                <path id="Path_29" data-name="Path 29"
-                                                    d="M12.768,9H9.754A.754.754,0,0,0,9,9.754v3.015a.754.754,0,0,0,.754.754h3.015a.754.754,0,0,0,.754-.754V9.754A.754.754,0,0,0,12.768,9Z"
-                                                    transform="translate(-2.217 -2.217)" fill="#141517"></path>
-                                                <path id="Path_30" data-name="Path 30"
-                                                    d="M12.768,18H9.754A.754.754,0,0,0,9,18.754v3.015a.754.754,0,0,0,.754.754h3.015a.754.754,0,0,0,.754-.754V18.754A.754.754,0,0,0,12.768,18Z"
-                                                    transform="translate(-2.217 -4.434)" fill="#141517"></path>
-                                                <path id="Path_31" data-name="Path 31"
-                                                    d="M21.768,0H18.754A.754.754,0,0,0,18,.754V3.768a.754.754,0,0,0,.754.754h3.015a.754.754,0,0,0,.754-.754V.754A.754.754,0,0,0,21.768,0Z"
-                                                    transform="translate(-4.434)" fill="#141517"></path>
-                                                <path id="Path_32" data-name="Path 32"
-                                                    d="M21.768,9H18.754A.754.754,0,0,0,18,9.754v3.015a.754.754,0,0,0,.754.754h3.015a.754.754,0,0,0,.754-.754V9.754A.754.754,0,0,0,21.768,9Z"
-                                                    transform="translate(-4.434 -2.217)" fill="#141517"></path>
-                                                <path id="Path_33" data-name="Path 33"
-                                                    d="M21.768,18H18.754a.754.754,0,0,0-.754.754v3.015a.754.754,0,0,0,.754.754h3.015a.754.754,0,0,0,.754-.754V18.754A.754.754,0,0,0,21.768,18Z"
-                                                    transform="translate(-4.434 -4.434)" fill="#141517"></path>
-                                            </svg> <span class="text">Category</span></figure>
-                                        <div class="dropdown-category">
-                                            <nav>
-                                                <ul>
-                                                    <li>
-                                                        <NuxtLink to="/event">Basket Ball</NuxtLink>
-                                                    </li>
-                                                    <li>
-                                                        <NuxtLink to="/event">Football</NuxtLink>
-                                                    </li>
-                                                    <li>
-                                                        <NuxtLink to="/event">Badminton</NuxtLink>
-                                                    </li>
-                                                    <li>
-                                                        <NuxtLink to="/event">Cricket</NuxtLink>
-                                                    </li>
-                                                    <li>
-                                                        <NuxtLink to="/event">Tennis</NuxtLink>
-                                                    </li>
-                                                    <li>
-                                                        <NuxtLink to="/event">Other</NuxtLink>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,7 +28,7 @@
                                     <div class="header-logo">
                                         <NuxtLink to="/"><img src="/img/logo/logo-black.png" alt="logo"></NuxtLink>
                                     </div>
-                                    <div class="main-menu d-none d-xl-block">
+                                    <div class="main-menu menu-margin d-none d-xl-block">
                                         <nav id="mobile-menu">
                                             <ul>
                                                 <li>
@@ -123,13 +62,13 @@
                             </div>
                             <div class="col-xl-5 col-lg-5 col-md-7 col-sm-3 col-3">
                                 <div class="header-right d-flex align-items-center justify-content-end">
-                                    <div class="header-search d-none d-xxl-block mr-30">
-                                        <form action="#">
+                                    <div class="header-search w-50 d-none d-xl-block mr-30">
+                                        <div>
                                             <div class="search-icon p-relative">
-                                                <input required type="text" placeholder="Search events...">
-                                                <button type="submit"><i class="fas fa-search"></i></button>
+                                                <input class="mr-10 w-75" v-model="searchQuery" required type="text" placeholder="Search courses...">
+                                                <NuxtLink :to="`/search?find=${searchQuery}`"><i class="fas fa-search"></i></NuxtLink>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                     <div v-if="loggedIn" class="d-inline-flex justify-content-center align-items-center">
                                         <div class="user-btn-inner p-relative d-none d-md-block">
@@ -227,10 +166,10 @@
                     </div>
                     <div class="offset-widget offset_searchbar mb-30">
                         <div class="menu-search position-relative ">
-                            <form action="#" class="filter-search-input">
-                                <input required type="text" placeholder="Search keyword">
-                                <button><i class="fal fa-search"></i></button>
-                            </form>
+                            <div class="filter-search-input">
+                                <input class="mr-10" v-model="searchQuery" required type="text" placeholder="Search keyword">
+                                <NuxtLink :to="`/search/?find=${searchQuery}`"><i class="fal fa-search"></i></NuxtLink>
+                            </div>
                         </div>
                     </div>
                     <div class="offset-widget offset_menu-top mb-20">
@@ -300,43 +239,7 @@
                             <a href="#">Forgot password?</a>
                         </div>
                     </div>
-                    <div class="sign-social text-center">
-                        <span>Or Sign- in with</span>
-                    </div>
-                    <div class="sign-social-icon">
-                        <div class="sign-facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="9.034" height="18.531"
-                                viewBox="0 0 9.034 18.531">
-                                <path id="Path_212" data-name="Path 212"
-                                    d="M183.106,757.2v-1.622c0-.811.116-1.274,1.39-1.274h1.621v-3.127h-2.664c-3.243,0-4.285,1.506-4.285,4.169v1.969h-2.085v3.127h1.969v9.265h4.054v-9.265h2.664l.347-3.243Z"
-                                    transform="translate(-177.083 -751.176)" fill="#2467ec" />
-                            </svg>
-                            <a href="#">Facebook</a>
-                        </div>
-                        <div class="sign-gmail">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21.692" height="16.273"
-                                viewBox="0 0 21.692 16.273">
-                                <g id="gmail" transform="translate(0 -63.953)">
-                                    <path id="Path_8685" data-name="Path 8685"
-                                        d="M1.479,169.418H4.93v-8.381l-2.26-3.946L0,157.339v10.6a1.479,1.479,0,0,0,1.479,1.479Z"
-                                        transform="translate(0 -89.192)" fill="#0085f7" />
-                                    <path id="Path_8686" data-name="Path 8686"
-                                        d="M395.636,169.418h3.451a1.479,1.479,0,0,0,1.479-1.479v-10.6l-2.666-.248-2.264,3.946v8.381Z"
-                                        transform="translate(-378.874 -89.192)" fill="#00a94b" />
-                                    <path id="Path_8687" data-name="Path 8687"
-                                        d="M349.816,65.436,347.789,69.3l2.027,2.541,4.93-3.7V66.176A2.219,2.219,0,0,0,351.2,64.4Z"
-                                        transform="translate(-333.054)" fill="#ffbc00" />
-                                    <path id="Path_8688" data-name="Path 8688"
-                                        d="M72.7,105.365l-1.932-4.08L72.7,98.956l5.916,4.437,5.916-4.437v6.409L78.619,109.8Z"
-                                        transform="translate(-67.773 -33.52)" fill="#ff4131" fill-rule="evenodd" />
-                                    <path id="Path_8689" data-name="Path 8689"
-                                        d="M0,66.176v1.972l4.93,3.7V65.436L3.55,64.4A2.219,2.219,0,0,0,0,66.176Z"
-                                        transform="translate(0)" fill="#e51c19" />
-                                </g>
-                            </svg>
-                            <a href="#">Google</a>
-                        </div>
-                    </div>
+                    
                 </form>
             </div>
         </div>
@@ -345,7 +248,7 @@
         <!-- sigin-area end-->
 
         <!-- signup-area-start -->
-        <div :class="`${showSignUp ? 'signup-area open position-fixed' : 'signup-area'}`">
+        <div :class="`${showSignUp ? 'signup-area open position-absolute' : 'signup-area'}`">
             <div class="sign-up-wrapper">
                 <div class="signup-box text-center ">
                     <div class="signup-text">
@@ -370,8 +273,8 @@
                     <div class="signup-wrapper">
                         <select v-model="SignUpData.Gender" class="form-select" required>
                             <option value="" disabled selected>Gender *</option>
-                            <option value="Male">M</option>
-                            <option value="Female">F</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </select>
                     </div>
                     <div class="signup-wrapper">
@@ -394,12 +297,42 @@
                     <div class="signup-wrapper">
                         <select v-model="SignUpData.PrefferedLocation" class="form-select" required>
                             <option value="" disabled selected>Preffered State *</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                            <option value="Assam">Assam</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chandigarh">Chandigarh</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
+                            <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                            <option value="Daman and Diu">Daman and Diu</option>
                             <option value="Delhi">Delhi</option>
-                            <option value="Haryana">Haryana</option>
-                            <option value="UP">UP</option>
+                            <option value="Lakshadweep">Lakshadweep</option>
+                            <option value="Puducherry">Puducherry</option>
+                            <option value="Goa">Goa</option>
                             <option value="Gujarat">Gujarat</option>
-                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                            <option value="Jharkhand">Jharkhand</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Madhya Pradesh">Madhya Pradesh</option>
                             <option value="Maharashtra">Maharashtra</option>
+                            <option value="Manipur">Manipur</option>
+                            <option value="Meghalaya">Meghalaya</option>
+                            <option value="Mizoram">Mizoram</option>
+                            <option value="Nagaland">Nagaland</option>
+                            <option value="Odisha">Odisha</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Sikkim">Sikkim</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Tripura">Tripura</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Uttarakhand">Uttarakhand</option>
+                            <option value="West Bengal">West Bengal</option>
                         </select>
                     </div>
                     <div class="signup-action">
@@ -421,43 +354,7 @@
                     <div class="acount-login text-center">
                         <span>Already have an account? <a href="#" @click="handleSignIn">Log in</a></span>
                     </div>
-                    <div class="sign-social text-center">
-                        <span>Or Sign- in with</span>
-                    </div>
-                    <div class="sign-social-icon">
-                        <div class="sign-facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="9.034" height="18.531"
-                                viewBox="0 0 9.034 18.531">
-                                <path id="Path_2121121" data-name="Path 212"
-                                    d="M183.106,757.2v-1.622c0-.811.116-1.274,1.39-1.274h1.621v-3.127h-2.664c-3.243,0-4.285,1.506-4.285,4.169v1.969h-2.085v3.127h1.969v9.265h4.054v-9.265h2.664l.347-3.243Z"
-                                    transform="translate(-177.083 -751.176)" fill="#2467ec" />
-                            </svg>
-                            <a href="#">Facebook</a>
-                        </div>
-                        <div class="sign-gmail">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21.692" height="16.273"
-                                viewBox="0 0 21.692 16.273">
-                                <g id="gmail-01" transform="translate(0 -63.953)">
-                                    <path id="Path_868365" data-name="Path 863185"
-                                        d="M1.479,169.418H4.93v-8.381l-2.26-3.946L0,157.339v10.6a1.479,1.479,0,0,0,1.479,1.479Z"
-                                        transform="translate(0 -89.192)" fill="#0085f7" />
-                                    <path id="Path_863286" data-name="Path 8683106"
-                                        d="M395.636,169.418h3.451a1.479,1.479,0,0,0,1.479-1.479v-10.6l-2.666-.248-2.264,3.946v8.381Z"
-                                        transform="translate(-378.874 -89.192)" fill="#00a94b" />
-                                    <path id="Path_8322687" data-name="Path 831687"
-                                        d="M349.816,65.436,347.789,69.3l2.027,2.541,4.93-3.7V66.176A2.219,2.219,0,0,0,351.2,64.4Z"
-                                        transform="translate(-333.054)" fill="#ffbc00" />
-                                    <path id="Path_863088" data-name="Path 868038"
-                                        d="M72.7,105.365l-1.932-4.08L72.7,98.956l5.916,4.437,5.916-4.437v6.409L78.619,109.8Z"
-                                        transform="translate(-67.773 -33.52)" fill="#ff4131" fill-rule="evenodd" />
-                                    <path id="Path_8682519" data-name="Path 868921"
-                                        d="M0,66.176v1.972l4.93,3.7V65.436L3.55,64.4A2.219,2.219,0,0,0,0,66.176Z"
-                                        transform="translate(0)" fill="#e51c19" />
-                                </g>
-                            </svg>
-                            <a href="#">Google</a>
-                        </div>
-                    </div>
+                    
                 </form>
             </div>
         </div>
@@ -511,7 +408,8 @@ export default {
                 eventDropDown: false,
                 blogDropdown: false,
             },
-            isAdmin: false
+            isAdmin: false,
+            searchQuery: ''
         }
     },
     methods: {
@@ -563,7 +461,7 @@ export default {
         },
         async userRegister () {
             if(this.validateEmail(this.SignUpData.Email)) {
-                axios.post('http://194.195.118.102:4000/users/register', this.SignUpData)
+                axios.post('http://127.0.0.1:4000/users/register', this.SignUpData)
                 .then((response) => {
                     console.log(response)
                     localStorage.setItem('loggedIn', true)
@@ -597,7 +495,7 @@ export default {
         },
         async userLogin () {
             if(this.validateEmail(this.SignInEmail)) {
-                axios.post('http://194.195.118.102:4000/users/authenticate', {
+                axios.post('http://127.0.0.1:4000/users/authenticate', {
                         Email: this.SignInEmail,
                         password: this.SignInPass
                     }).then((res) => {   
@@ -678,5 +576,8 @@ export default {
     outline: none;
     color: #575757;
     font-size: 16px;
+}
+.menu-margin ul li {
+    margin: 0 15px !important;
 }
 </style>

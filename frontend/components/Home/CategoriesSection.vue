@@ -10,7 +10,7 @@
             </div>
             <div class="row">
                <div class="col-xl-4 col-lg-6 col-md-6" v-for="item in CategoryList" :key="item.categoryTitle">
-                  <NuxtLink to="/course">
+                  <NuxtLink to="#">
                       <div class="catagory-wrapper mb-30">
                         <div class="catagory-thumb" v-html="item.categoryIcon">
                         

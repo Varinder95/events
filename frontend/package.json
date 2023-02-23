@@ -26,6 +26,7 @@
     "sass-loader": "^12.6.0",
     "swiper": "^8.1.5",
     "v-calendar": "^2.4.1",
-    "vue-awesome-swiper": "^5.0.1"
+    "vue-awesome-swiper": "^5.0.1",
+    "vuejs-paginate-next": "^1.0.2"
   }
 }

@@ -35,7 +35,7 @@ export default {
       <!-- header-area-end -->
       
       <!-- PageTitle-area-end -->
-      <PageTitle pageTitle="Upcoming Event" pageSubTitle="Upcoming Event" />
+      <PageTitle pageTitle="Upcoming Events" pageSubTitle="Upcoming Events" />
       <!-- PageTitle-area-end -->
 
       <!-- event-area-start -->

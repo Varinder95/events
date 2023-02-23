@@ -75,19 +75,49 @@
                 <div class="signup-wrapper">
                     <select v-model="EventData.Location" class="form-select">
                         <option value="" disabled selected>Select State *</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                        <option value="Daman and Diu">Daman and Diu</option>
                         <option value="Delhi">Delhi</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="UP">UP</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Goa">Goa</option>
                         <option value="Gujarat">Gujarat</option>
-                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
                         <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
                     </select>
                 </div>
                 <div class="signup-input-wrapper mb-20">
                     <textarea v-model="EventData.Rules" class="form-textarea" rows="3" placeholder="Event Rules and Regulations"></textarea>
                 </div>
                 <div class="signup-input-wrapper">
-                    <input required v-model="EventData.entryFee" type="text" placeholder="Event Entry Fees">
+                    <input required v-model="EventData.entryFee" type="number" placeholder="Event Entry Fees">
                 </div>
                 <div class="mt-10 mb-10">
                     <h3>Organiser details</h3>
@@ -96,13 +126,13 @@
                     <input required v-model="EventData.Organiser1Name" type="text" placeholder="First Organiser Name">
                 </div>
                 <div class="signup-input-wrapper">
-                    <input required v-model="EventData.Organiser1Phone" type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="First Organiser Number">
+                    <input required v-model="EventData.Organiser1Phone" type="tel" pattern="[6789][0-9]{9}" placeholder="First Organiser Number">
                 </div>
                 <div class="signup-input-wrapper">
                     <input required v-model="EventData.Organiser2Name" type="text" placeholder="Second Organiser Name">
                 </div>
                 <div class="signup-input-wrapper">
-                    <input required v-model="EventData.Organiser2Phone" type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Second Organiser Number">
+                    <input required v-model="EventData.Organiser2Phone" type="tel" pattern="[6789][0-9]{9}" placeholder="Second Organiser Number">
                 </div>
                 <div v-if="EventError" class="my-20 text-center">
                     <p class="text-md text-danger">{{errorMessage}}</p>
@@ -140,10 +170,10 @@ export default {
                 createdByLName: '',
                 Address: '',
                 Landmark: '',
-                Prize1: null,
-                Prize2: null,
-                Prize3: null,
-                consolationPrize: null,
+                Prize1: 'No Prize',
+                Prize2: 'No Prize',
+                Prize3: 'No Prize',
+                consolationPrize: 'No Prize',
                 Time: '',
                 Location: '',
                 Rules: '',
@@ -168,11 +198,37 @@ export default {
             this.EventData.createdById = data.id;
             this.EventData.createdByFName = data.FName;
             this.EventData.createdByLName = data.LName;
-            axios.post('http://194.195.118.102:4000/events/createEvent', this.EventData)
+            axios.post('http://127.0.0.1:4000/events/createEvent', this.EventData)
                 .then((response) => {
                     console.log(response)
                     this.addEventId = response.data.id
                     this.EventSuccess = true
+                    this.EventData.Name = ''
+                    this.EventData.Sport = ''
+                    this.EventData.Category = ''
+                    this.EventData.startDate = ''
+                    this.EventData.endDate = ''
+                    this.EventData.Description = ''
+                    this.EventData.createdById = ''
+                    this.EventData.createdByFName = ''
+                    this.EventData.createdByLName = ''
+                    this.EventData.Address = ''
+                    this.EventData.Landmark = ''
+                    this.EventData.Prize1 = null
+                    this.EventData.Prize2 = null
+                    this.EventData.Prize3 = null
+                    this.EventData.consolationPrize = null
+                    this.EventData.Time = ''
+                    this.EventData.Location = ''
+                    this.EventData.Rules = ''
+                    this.EventData.entryFee = ''
+                    this.EventData.Organiser1Name = ''
+                    this.EventData.Organiser1Phone = ''
+                    this.EventData.Organiser2Name = ''
+                    this.EventData.Organiser2Phone = ''
+                    this.EventData.createdById = ''
+                    this.EventData.createdByFName = ''
+                    this.EventData.createdByLName = ''
                 })
                 .catch((error) => {
                     if (error.response) {
@@ -194,9 +250,6 @@ export default {
                         this.errorMessage = error.message
                     }
                 });
-        },
-        handleAddEvent() {
-            return this.showAddEvent = !this.showAddEvent
         },
     },
     beforeMount() {

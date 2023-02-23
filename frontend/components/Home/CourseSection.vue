@@ -14,11 +14,22 @@ export default {
     },
     methods: {
       async getFeaturedEvent() {
-        await axios.get('http://194.195.118.102:4000/events/getAllFiltered', {
-            params: { Featured : "Yes"}
+         var dataQuery = {
+            $and: [
+               { approvalStatus : "Approved"},
+               { Featured : "Yes"},
+               { startDate: {$gt: new Date()}}
+            ]
+         }
+        await axios.get('http://127.0.0.1:4000/events/getAllFiltered', {
+            params: { 
+               dataQuery: dataQuery,
+               page: 1,
+               size: 6
+            }
         }).then((res) => {
             console.log(res)   
-            this.getData = res.data
+            this.getData = res.data.docs
         })
         .catch((error) => {
             if (error.response) {
@@ -38,6 +49,11 @@ export default {
                this.loaded = true
          }
       },
+      getDateFormat(dateValue) {
+         var dateObj = new Date(dateValue)
+         var formattedDate = `${("0" + dateObj.getDate()).slice(-2)}/${("0" + (dateObj.getMonth()+1)).slice(-2)}/${dateObj.getFullYear()}`
+         return formattedDate
+      }
    } 
 };
 </script>
@@ -95,8 +111,8 @@ export default {
                                           </div>
                                           <div class="info-cart-text">
                                                 <ul>
-                                                   <li><i class="fa-sharp fa-solid fa-calendar-days"></i><span class="fw-bold">Start Date :</span> {{data.startDate}}</li>
-                                                   <li><i class="fa-sharp fa-solid fa-calendar-days"></i><span class="fw-bold">End Date :</span> {{data.endDate}}</li>
+                                                   <li><i class="fa-sharp fa-solid fa-calendar-days"></i><span class="fw-bold">Start Date :</span> {{getDateFormat(data.startDate)}}</li>
+                                                   <li><i class="fa-sharp fa-solid fa-calendar-days"></i><span class="fw-bold">End Date :</span> {{getDateFormat(data.endDate)}}</li>
                                                    <li><i class="fa-solid fa-clock"></i><span class="fw-bold">Time :</span> {{data.Time}}</li>
                                                 </ul>
                                           </div>

@@ -162,7 +162,7 @@ export default {
     methods: {
         async userSubscribe () {
             if(this.validateEmail(this.subscribeData.Email)) {
-                axios.post('http://194.195.118.102:4000/basic/subscribe', this.subscribeData)
+                axios.post('http://127.0.0.1:4000/basic/subscribe', this.subscribeData)
                 .then((response) => {
                     console.log(response)
                      this.subscribeError = false
